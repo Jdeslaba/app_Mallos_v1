@@ -3,6 +3,7 @@ import 'package:mi_app_velneo/config/theme.dart';
 import 'package:mi_app_velneo/utils/responsive_helper.dart';
 import 'package:mi_app_velneo/utils/validators.dart';
 import 'package:mi_app_velneo/views/widgets/common/custom_app_bar.dart';
+import 'package:mi_app_velneo/views/widgets/common/optimized_image.dart';
 
 class ClubScreen extends StatefulWidget {
   const ClubScreen({super.key});
@@ -78,35 +79,10 @@ class _ClubScreenState extends State<ClubScreen> {
           children: [
             ResponsiveHelper.verticalSpace(context, SpacingSize.medium),
 
-            // Imagen de la tarjeta real
-            SizedBox(
+            // Imagen de la tarjeta real - OPTIMIZADA
+            ClubCard(
               width: double.infinity,
               height: ResponsiveHelper.getContainerMinHeight(context),
-              child: Image.asset(
-                'assets/images/tarjeta.png',
-                fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    height: ResponsiveHelper.getContainerMinHeight(context),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                        ResponsiveHelper.getCardBorderRadius(context),
-                      ),
-                      border: Border.all(color: Colors.grey.shade300),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Tarjeta EU MALLOS\n(Imagen no encontrada)',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: ResponsiveHelper.getBodyFontSize(context),
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
             ),
 
             ResponsiveHelper.verticalSpace(context, SpacingSize.large),

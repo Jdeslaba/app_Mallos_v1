@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:mi_app_velneo/config/theme.dart';
 import 'package:mi_app_velneo/config/routes.dart';
 import 'package:mi_app_velneo/utils/responsive_helper.dart';
+import 'package:mi_app_velneo/views/widgets/common/optimized_image.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -63,48 +64,9 @@ class _SplashScreenState extends State<SplashScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Logo principal - CENTRADO Y RESPONSIVE
-                Container(
-                  constraints: BoxConstraints(
-                    maxWidth: ResponsiveHelper.getSplashLogoWidth(context),
-                    maxHeight: 300, // Altura máxima controlada
-                  ),
-                  child: AspectRatio(
-                    aspectRatio: 5 / 3,
-                    child: Image.asset(
-                      'assets/images/distrito_mallos_logo.png',
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: AppTheme.primaryColor.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(
-                              ResponsiveHelper.getCardBorderRadius(context),
-                            ),
-                            border: Border.all(
-                              color: AppTheme.primaryColor.withValues(
-                                alpha: 0.3,
-                              ),
-                              width: 2,
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'DISTRITO\nMALLOS',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: ResponsiveHelper.getSubtitleFontSize(
-                                  context,
-                                ),
-                                fontWeight: FontWeight.bold,
-                                color: AppTheme.primaryColor,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                // Logo principal - OPTIMIZADO
+                DistritoMallosLogo(
+                  height: ResponsiveHelper.getSplashLogoWidth(context) * 0.6,
                 ),
 
                 ResponsiveHelper.verticalSpace(context, SpacingSize.xl),
