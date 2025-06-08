@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mi_app_velneo/config/theme.dart';
+import 'package:mi_app_velneo/utils/responsive_helper.dart';
 import 'package:mi_app_velneo/views/widgets/common/custom_app_bar.dart';
 import 'package:mi_app_velneo/views/widgets/common/custom_drawer.dart';
 import 'package:mi_app_velneo/views/screens/home/news_section.dart';
@@ -11,34 +12,40 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
 
       // AppBar personalizado
-      appBar: CustomAppBar(),
+      appBar: const CustomAppBar(),
 
       // Menú lateral personalizado
-      drawer: CustomDrawer(),
+      drawer: const CustomDrawer(),
 
-      // Body con todas las secciones
+      // Body con todas las secciones - COMPLETAMENTE RESPONSIVE
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            SizedBox(height: 20), // Espacio superior
-            // Sección de noticias
-            NewsSection(),
+            // Espacio superior - RESPONSIVE
+            ResponsiveHelper.verticalSpace(context, SpacingSize.medium),
 
-            SizedBox(height: 30),
+            // Sección de noticias - RESPONSIVE
+            const NewsSection(),
 
-            // Grid de 6 botones principales
-            MenuButtonsSection(),
+            // Espaciado - RESPONSIVE
+            ResponsiveHelper.verticalSpace(context, SpacingSize.large),
 
-            SizedBox(height: 40),
+            // Grid de 6 botones principales - RESPONSIVE
+            const MenuButtonsSection(),
 
-            // Footer con logos institucionales
-            FooterSection(),
+            // Espaciado - RESPONSIVE
+            ResponsiveHelper.verticalSpace(context, SpacingSize.xl),
 
-            SizedBox(height: 20), // Espacio inferior
+            // Footer con logos institucionales - RESPONSIVE
+            const FooterSection(),
+
+            // Espacio inferior - RESPONSIVE
+            ResponsiveHelper.verticalSpace(context, SpacingSize.medium),
           ],
         ),
       ),

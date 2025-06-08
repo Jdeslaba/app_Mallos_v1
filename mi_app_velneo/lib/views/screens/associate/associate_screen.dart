@@ -9,7 +9,6 @@ class AssociateScreen extends StatelessWidget {
 
   // Función para enviar correo
   Future<void> _sendEmail(BuildContext context) async {
-    // ✅ Recibir context como parámetro
     final Uri emailUri = Uri(
       scheme: 'mailto',
       path: 'distritomallos@gmail.com',
@@ -24,9 +23,7 @@ class AssociateScreen extends StatelessWidget {
         throw 'No se pudo abrir el cliente de correo';
       }
     } catch (e) {
-      // ✅ Context ya disponible como parámetro
       if (context.mounted) {
-        // ✅ Verificar que el widget sigue montado
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Error al abrir el correo. Inténtalo más tarde.'),
@@ -39,7 +36,6 @@ class AssociateScreen extends StatelessWidget {
 
   // Función para hacer llamada telefónica
   Future<void> _makePhoneCall(BuildContext context) async {
-    // ✅ Recibir context como parámetro
     final Uri phoneUri = Uri(scheme: 'tel', path: '623744226');
 
     try {
@@ -49,9 +45,7 @@ class AssociateScreen extends StatelessWidget {
         throw 'No se pudo abrir la aplicación de teléfono';
       }
     } catch (e) {
-      // ✅ Context ya disponible como parámetro
       if (context.mounted) {
-        // ✅ Verificar que el widget sigue montado
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Error al abrir la aplicación de teléfono'),
@@ -66,7 +60,6 @@ class AssociateScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       appBar: const CustomAppBar(
         title: 'Asóciate',
         showBackButton: true,
@@ -74,43 +67,42 @@ class AssociateScreen extends StatelessWidget {
         showFavoriteButton: false,
         showLogo: true,
       ),
-
       body: SingleChildScrollView(
-        child: Padding(
-          padding: ResponsiveHelper.getHorizontalPadding(context),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 40),
+        padding: ResponsiveHelper.getScreenPadding(context),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ResponsiveHelper.verticalSpace(context, SpacingSize.large),
 
-              // Ilustración de profesionales
-              Container(
-                width: double.infinity,
-                height: 200,
+            // Ilustración de profesionales - RESPONSIVE
+            SizedBox(
+              width: double.infinity,
+              height: ResponsiveHelper.getContainerMinHeight(context),
+              child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    color: Colors.grey.shade100,
-                    child: const Icon(
-                      Icons.group,
-                      size: 80,
-                      color: Colors.grey,
-                    ),
+                  borderRadius: BorderRadius.circular(
+                    ResponsiveHelper.getCardBorderRadius(context),
                   ),
+                  color: Colors.grey.shade100,
+                ),
+                child: Icon(
+                  Icons.group,
+                  size: ResponsiveHelper.getMenuButtonIconSize(context) * 2,
+                  color: Colors.grey,
                 ),
               ),
+            ),
 
-              const SizedBox(height: 40),
+            ResponsiveHelper.verticalSpace(context, SpacingSize.large),
 
-              // Texto principal
-              RichText(
+            // Texto principal - COMPLETAMENTE RESPONSIVE
+            Padding(
+              padding: ResponsiveHelper.getHorizontalPadding(context),
+              child: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
                   style: TextStyle(
-                    fontSize: ResponsiveHelper.isDesktop(context) ? 18 : 16,
+                    fontSize: ResponsiveHelper.getBodyFontSize(context),
                     color: Colors.grey.shade700,
                     height: 1.6,
                   ),
@@ -141,165 +133,172 @@ class AssociateScreen extends StatelessWidget {
                   ],
                 ),
               ),
+            ),
 
-              const SizedBox(height: 60),
+            ResponsiveHelper.verticalSpace(context, SpacingSize.xl),
 
-              // Botón ÚNETE - FUNCIONAL
-              Container(
-                width: double.infinity,
-                height: 60,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: const LinearGradient(
-                    colors: [Colors.red, Colors.redAccent],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.red.withValues(
-                        alpha: 0.3,
-                      ), // ✅ CORREGIDO: withValues en lugar de withOpacity
-                      blurRadius: 10,
-                      offset: const Offset(0, 5),
-                    ),
-                  ],
+            // Botón ÚNETE - RESPONSIVE
+            Container(
+              width: double.infinity,
+              height: ResponsiveHelper.getButtonHeight(context),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                  ResponsiveHelper.getButtonBorderRadius(context),
                 ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(15),
-                    onTap: () => _sendEmail(
-                      context,
-                    ), // ✅ CORREGIDO: Pasar context como parámetro
-                    child: const Center(
-                      child: Text(
-                        'ÚNETE',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2,
-                        ),
+                gradient: const LinearGradient(
+                  colors: [Colors.red, Colors.redAccent],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.red.withValues(alpha: 0.3),
+                    blurRadius: ResponsiveHelper.getCardElevation(context),
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(
+                    ResponsiveHelper.getButtonBorderRadius(context),
+                  ),
+                  onTap: () => _sendEmail(context),
+                  child: Center(
+                    child: Text(
+                      'ÚNETE',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: ResponsiveHelper.getSubtitleFontSize(context),
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2,
                       ),
                     ),
                   ),
                 ),
               ),
+            ),
 
-              const SizedBox(height: 40),
+            ResponsiveHelper.verticalSpace(context, SpacingSize.large),
 
-              // Información de contacto - CORREGIR OVERFLOW
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  children: [
-                    // Email clickeable - LIMITAR ANCHO
-                    Center(
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width - 60,
+            // Información de contacto - RESPONSIVE
+            Column(
+              children: [
+                // Email clickeable - RESPONSIVE
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: ResponsiveHelper.getScreenWidth(context) - 40,
+                  ),
+                  child: GestureDetector(
+                    onTap: () => _sendEmail(context),
+                    child: Container(
+                      padding: ResponsiveHelper.getCardPadding(context)
+                          .copyWith(
+                            top: ResponsiveHelper.getSmallSpacing(context),
+                            bottom: ResponsiveHelper.getSmallSpacing(context),
+                          ),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade50,
+                        borderRadius: BorderRadius.circular(
+                          ResponsiveHelper.getCardBorderRadius(context),
                         ),
-                        child: GestureDetector(
-                          onTap: () => _sendEmail(
+                        border: Border.all(color: Colors.blue.shade200),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.email_outlined,
+                            color: Colors.blue.shade700,
+                            size:
+                                ResponsiveHelper.getMenuButtonIconSize(
+                                  context,
+                                ) *
+                                0.6,
+                          ),
+                          ResponsiveHelper.horizontalSpace(
                             context,
-                          ), // ✅ CORREGIDO: Pasar context como parámetro
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 15,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.blue.shade50,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.blue.shade200),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.email_outlined,
-                                  color: Colors.blue.shade700,
-                                  size: 20,
+                            SpacingSize.small,
+                          ),
+                          Flexible(
+                            child: Text(
+                              'distritomallos@gmail.com',
+                              style: TextStyle(
+                                fontSize: ResponsiveHelper.getBodyFontSize(
+                                  context,
                                 ),
-                                const SizedBox(width: 8),
-                                Flexible(
-                                  child: Text(
-                                    'distritomallos@gmail.com',
-                                    style: TextStyle(
-                                      fontSize:
-                                          ResponsiveHelper.isDesktop(context)
-                                          ? 16
-                                          : 14,
-                                      color: Colors.blue.shade700,
-                                      fontWeight: FontWeight.w500,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
+                                color: Colors.blue.shade700,
+                                fontWeight: FontWeight.w500,
+                                decoration: TextDecoration.underline,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
-
-                    const SizedBox(height: 20),
-
-                    // Teléfono clickeable - LIMITAR ANCHO
-                    Center(
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width - 60,
-                        ),
-                        child: GestureDetector(
-                          onTap: () => _makePhoneCall(
-                            context,
-                          ), // ✅ CORREGIDO: Pasar context como parámetro
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 12,
-                              horizontal: 15,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.green.shade50,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.green.shade200),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.phone_outlined,
-                                  color: Colors.green.shade700,
-                                  size: 24,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  '623 74 42 26',
-                                  style: TextStyle(
-                                    fontSize:
-                                        ResponsiveHelper.isDesktop(context)
-                                        ? 20
-                                        : 18,
-                                    color: Colors.green.shade700,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
 
-              const SizedBox(height: 40),
-            ],
-          ),
+                ResponsiveHelper.verticalSpace(context, SpacingSize.medium),
+
+                // Teléfono clickeable - RESPONSIVE
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: ResponsiveHelper.getScreenWidth(context) - 40,
+                  ),
+                  child: GestureDetector(
+                    onTap: () => _makePhoneCall(context),
+                    child: Container(
+                      padding: ResponsiveHelper.getCardPadding(context)
+                          .copyWith(
+                            top: ResponsiveHelper.getMediumSpacing(context),
+                            bottom: ResponsiveHelper.getMediumSpacing(context),
+                          ),
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade50,
+                        borderRadius: BorderRadius.circular(
+                          ResponsiveHelper.getCardBorderRadius(context),
+                        ),
+                        border: Border.all(color: Colors.green.shade200),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.phone_outlined,
+                            color: Colors.green.shade700,
+                            size:
+                                ResponsiveHelper.getMenuButtonIconSize(
+                                  context,
+                                ) *
+                                0.75,
+                          ),
+                          ResponsiveHelper.horizontalSpace(
+                            context,
+                            SpacingSize.small,
+                          ),
+                          Text(
+                            '623 74 42 26',
+                            style: TextStyle(
+                              fontSize: ResponsiveHelper.getHeadingFontSize(
+                                context,
+                              ),
+                              color: Colors.green.shade700,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            ResponsiveHelper.verticalSpace(context, SpacingSize.xl),
+          ],
         ),
       ),
     );

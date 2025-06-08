@@ -4,6 +4,7 @@ import 'package:mi_app_velneo/config/theme.dart';
 import 'package:mi_app_velneo/config/routes.dart';
 import 'package:mi_app_velneo/utils/responsive_helper.dart';
 import 'package:mi_app_velneo/utils/validators.dart';
+import 'package:mi_app_velneo/views/widgets/common/custom_app_bar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -35,23 +36,20 @@ class _LoginScreenState extends State<LoginScreen> {
       // Simular llamada a API (reemplazar con llamada real)
       await Future.delayed(const Duration(seconds: 2));
 
-      if (mounted) {
-        // ✅ CORREGIDO: Verificar que el widget sigue montado
-        setState(() {
-          _isLoading = false;
-        });
+      // Verificar si el widget sigue montado antes de usar context
+      if (!mounted) return;
 
-        // Navegar al home después del login exitoso
-        Navigator.pushReplacementNamed(context, AppRoutes.home);
-      }
+      setState(() {
+        _isLoading = false;
+      });
+
+      // Navegar al home después del login exitoso
+      Navigator.pushReplacementNamed(context, AppRoutes.home);
     }
   }
 
   Future<void> _openPrivacyPolicy() async {
-    if (mounted) {
-      // ✅ CORREGIDO: Verificar que el widget sigue montado
-      Navigator.pushNamed(context, AppRoutes.privacy);
-    }
+    Navigator.pushNamed(context, AppRoutes.privacy);
   }
 
   Future<void> _openContactForm() async {
@@ -70,7 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } catch (e) {
       if (mounted) {
-        // ✅ CORREGIDO: Verificar que el widget sigue montado
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('No se pudo abrir el cliente de correo'),
@@ -85,18 +82,25 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: const CustomAppBar(
+        title: 'Login Asociados',
+        showBackButton: true,
+        showMenuButton: false,
+        showFavoriteButton: false,
+        showLogo: true,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: ResponsiveHelper.getHorizontalPadding(context),
+          padding: ResponsiveHelper.getScreenPadding(context),
           child: Form(
             key: _formKey,
             child: Column(
               children: [
-                const SizedBox(height: 60),
+                ResponsiveHelper.verticalSpace(context, SpacingSize.xl),
 
-                // Logo eu mallos - ✅ CORREGIDO: Container → SizedBox + const
-                const SizedBox(
-                  height: 120,
+                // Logo eu mallos - RESPONSIVE
+                SizedBox(
+                  height: ResponsiveHelper.getContainerMinHeight(context) * 0.6,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -104,11 +108,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(Icons.favorite, color: Colors.red, size: 32),
+                          Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                            size: ResponsiveHelper.getMenuButtonIconSize(
+                              context,
+                            ),
+                          ),
                           Text(
                             'eu',
                             style: TextStyle(
-                              fontSize: 28,
+                              fontSize: ResponsiveHelper.getSubtitleFontSize(
+                                context,
+                              ),
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
@@ -118,7 +130,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(
                         'mallos',
                         style: TextStyle(
-                          fontSize: 48,
+                          fontSize:
+                              ResponsiveHelper.getTitleFontSize(context) * 1.5,
                           fontWeight: FontWeight.bold,
                           color: Colors.red,
                           height: 0.8,
@@ -128,31 +141,49 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 60),
+                ResponsiveHelper.verticalSpace(context, SpacingSize.xl),
 
-                // Campo Email
+                // Campo Email - RESPONSIVE
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   validator: Validators.validateEmail,
-                  decoration: const InputDecoration(
+                  style: TextStyle(
+                    fontSize: ResponsiveHelper.getBodyFontSize(context),
+                  ),
+                  decoration: InputDecoration(
                     labelText: 'Email',
                     hintText: 'Introduce tu email',
-                    prefixIcon: Icon(Icons.email_outlined),
-                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(
+                      fontSize: ResponsiveHelper.getBodyFontSize(context),
+                    ),
+                    hintStyle: TextStyle(
+                      fontSize: ResponsiveHelper.getCaptionFontSize(context),
+                    ),
+                    prefixIcon: const Icon(Icons.email_outlined),
+                    border: const OutlineInputBorder(),
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                ResponsiveHelper.verticalSpace(context, SpacingSize.medium),
 
-                // Campo Contraseña
+                // Campo Contraseña - RESPONSIVE
                 TextFormField(
                   controller: _passwordController,
                   obscureText: !_isPasswordVisible,
                   validator: Validators.validatePassword,
+                  style: TextStyle(
+                    fontSize: ResponsiveHelper.getBodyFontSize(context),
+                  ),
                   decoration: InputDecoration(
                     labelText: 'Contraseña',
                     hintText: 'Introduce tu contraseña',
+                    labelStyle: TextStyle(
+                      fontSize: ResponsiveHelper.getBodyFontSize(context),
+                    ),
+                    hintStyle: TextStyle(
+                      fontSize: ResponsiveHelper.getCaptionFontSize(context),
+                    ),
                     prefixIcon: const Icon(Icons.lock_outline),
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -170,26 +201,30 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 40),
+                ResponsiveHelper.verticalSpace(context, SpacingSize.large),
 
-                // Botón INICIAR
+                // Botón INICIAR - RESPONSIVE
                 SizedBox(
                   width: double.infinity,
-                  height: 56,
+                  height: ResponsiveHelper.getButtonHeight(context),
                   child: ElevatedButton(
                     onPressed: _isLoading ? null : _login,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.secondaryColor,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(
+                          ResponsiveHelper.getButtonBorderRadius(context),
+                        ),
                       ),
                     ),
                     child: _isLoading
                         ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text(
+                        : Text(
                             'INICIAR',
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: ResponsiveHelper.getHeadingFontSize(
+                                context,
+                              ),
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
@@ -197,12 +232,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                ResponsiveHelper.verticalSpace(context, SpacingSize.medium),
 
-                // Botón CANCELAR
+                // Botón CANCELAR - RESPONSIVE
                 SizedBox(
                   width: double.infinity,
-                  height: 56,
+                  height: ResponsiveHelper.getButtonHeight(context),
                   child: OutlinedButton(
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, AppRoutes.home);
@@ -210,13 +245,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Colors.orange),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(
+                          ResponsiveHelper.getButtonBorderRadius(context),
+                        ),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'CANCELAR',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: ResponsiveHelper.getHeadingFontSize(context),
                         fontWeight: FontWeight.bold,
                         color: Colors.orange,
                       ),
@@ -224,38 +261,124 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 60),
+                ResponsiveHelper.verticalSpace(context, SpacingSize.xl),
 
-                // Enlaces del footer
-                Column(
-                  children: [
-                    GestureDetector(
-                      onTap: _openPrivacyPolicy,
-                      child: Text(
-                        'Política de Privacidad',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey.shade600,
-                          decoration: TextDecoration.underline,
+                // Enlaces del footer - RESPONSIVE
+                Container(
+                  padding: ResponsiveHelper.getCardPadding(context),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade50,
+                    borderRadius: BorderRadius.circular(
+                      ResponsiveHelper.getCardBorderRadius(context),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: _openPrivacyPolicy,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: ResponsiveHelper.getSmallSpacing(context),
+                            horizontal: ResponsiveHelper.getMediumSpacing(
+                              context,
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade50,
+                            borderRadius: BorderRadius.circular(
+                              ResponsiveHelper.getCardBorderRadius(context),
+                            ),
+                            border: Border.all(color: Colors.blue.shade200),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.privacy_tip_outlined,
+                                color: Colors.blue.shade700,
+                                size:
+                                    ResponsiveHelper.getCaptionFontSize(
+                                      context,
+                                    ) +
+                                    4,
+                              ),
+                              ResponsiveHelper.horizontalSpace(
+                                context,
+                                SpacingSize.small,
+                              ),
+                              Text(
+                                'Política de Privacidad',
+                                style: TextStyle(
+                                  fontSize: ResponsiveHelper.getBodyFontSize(
+                                    context,
+                                  ),
+                                  color: Colors.blue.shade700,
+                                  fontWeight: FontWeight.w500,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: _openContactForm,
-                      child: Text(
-                        'Formulario de Contacto',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey.shade600,
-                          decoration: TextDecoration.underline,
+
+                      ResponsiveHelper.verticalSpace(
+                        context,
+                        SpacingSize.medium,
+                      ),
+
+                      GestureDetector(
+                        onTap: _openContactForm,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: ResponsiveHelper.getSmallSpacing(context),
+                            horizontal: ResponsiveHelper.getMediumSpacing(
+                              context,
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.green.shade50,
+                            borderRadius: BorderRadius.circular(
+                              ResponsiveHelper.getCardBorderRadius(context),
+                            ),
+                            border: Border.all(color: Colors.green.shade200),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.contact_mail_outlined,
+                                color: Colors.green.shade700,
+                                size:
+                                    ResponsiveHelper.getCaptionFontSize(
+                                      context,
+                                    ) +
+                                    4,
+                              ),
+                              ResponsiveHelper.horizontalSpace(
+                                context,
+                                SpacingSize.small,
+                              ),
+                              Text(
+                                'Formulario de Contacto',
+                                style: TextStyle(
+                                  fontSize: ResponsiveHelper.getBodyFontSize(
+                                    context,
+                                  ),
+                                  color: Colors.green.shade700,
+                                  fontWeight: FontWeight.w500,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
 
-                const SizedBox(height: 40),
+                ResponsiveHelper.verticalSpace(context, SpacingSize.large),
               ],
             ),
           ),

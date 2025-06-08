@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:mi_app_velneo/config/theme.dart';
 import 'package:mi_app_velneo/config/routes.dart';
 import 'package:mi_app_velneo/utils/responsive_helper.dart';
-import 'package:mi_app_velneo/views/screens/home/footer_section.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -41,8 +40,10 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void _navigateToNextScreen() {
-    // Navegar directo a la pantalla principal
-    Navigator.pushReplacementNamed(context, AppRoutes.home);
+    if (mounted) {
+      // Navegar directo a la pantalla principal
+      Navigator.pushReplacementNamed(context, AppRoutes.home);
+    }
   }
 
   @override
@@ -53,64 +54,86 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
+      body: SafeArea(
         child: FadeTransition(
           opacity: _fadeAnimation,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Espaciador flexible superior
-              Flexible(flex: 2, child: Container()),
-
-              // Logo principal - TAMAÑO ADAPTATIVO
-              Container(
-                width: ResponsiveHelper.getSplashLogoWidth(context) * 0.8,
-                height:
-                    (ResponsiveHelper.getSplashLogoWidth(context) * 0.8) * 0.6,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Logo principal - CENTRADO Y RESPONSIVE
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: ResponsiveHelper.getSplashLogoWidth(context),
+                    maxHeight: 300, // Altura máxima controlada
+                  ),
+                  child: AspectRatio(
+                    aspectRatio: 5 / 3,
+                    child: Image.asset(
+                      'assets/images/distrito_mallos_logo.png',
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: AppTheme.primaryColor.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(
+                              ResponsiveHelper.getCardBorderRadius(context),
+                            ),
+                            border: Border.all(
+                              color: AppTheme.primaryColor.withValues(
+                                alpha: 0.3,
+                              ),
+                              width: 2,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'DISTRITO\nMALLOS',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: ResponsiveHelper.getSubtitleFontSize(
+                                  context,
+                                ),
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.primaryColor,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ),
-                child: Image.asset(
-                  'assets/images/distrito_mallos_logo.png',
-                  fit: BoxFit.contain,
+
+                ResponsiveHelper.verticalSpace(context, SpacingSize.xl),
+
+                // Indicador de carga - CENTRADO
+                SizedBox(
+                  width: ResponsiveHelper.isMobile(context) ? 32 : 40,
+                  height: ResponsiveHelper.isMobile(context) ? 32 : 40,
+                  child: const CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      AppTheme.primaryColor,
+                    ),
+                    strokeWidth: 4,
+                  ),
                 ),
-              ),
 
-              // Espaciador adaptativo
-              SizedBox(
-                height: screenHeight * 0.08,
-              ), // 8% de la altura de pantalla
-              // Indicador de carga
-              const CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  AppTheme.primaryColor,
+                ResponsiveHelper.verticalSpace(context, SpacingSize.medium),
+
+                // Texto de carga
+                Text(
+                  'Cargando...',
+                  style: TextStyle(
+                    fontSize: ResponsiveHelper.getBodyFontSize(context),
+                    color: AppTheme.textSecondary,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-
-              const SizedBox(height: 20),
-
-              // Texto de carga
-              const Text(
-                'Cargando...',
-                style: TextStyle(fontSize: 16, color: AppTheme.textSecondary),
-              ),
-
-              // Espaciador flexible medio
-              Flexible(flex: 2, child: Container()),
-
-              // Footer con logos institucionales - COMPACTO
-              const Padding(
-                padding: EdgeInsets.only(bottom: 20),
-                child: FooterSection(),
-              ),
-
-              // Espaciador flexible inferior
-              Flexible(flex: 1, child: Container()),
-            ],
+              ],
+            ),
           ),
         ),
       ),
