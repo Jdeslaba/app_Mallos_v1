@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'config/theme.dart';
-import 'config/routes.dart';
+import 'package:mi_app_velneo/config/theme.dart';
+import 'package:mi_app_velneo/config/routes.dart';
 
 void main() {
   runApp(const MyApp());

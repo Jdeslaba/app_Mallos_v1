@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import '../views/screens/splash/splash_screen.dart';
-import '../views/screens/home/home_screen.dart';
-import '../views/screens/auth/login_screen.dart';
-import '../views/screens/auth/register_screen.dart';
-import '../views/screens/merchants/merchants_screen.dart';
-import '../views/screens/profile/profile_screen.dart';
-import '../views/screens/points/points_screen.dart';
-import '../views/screens/notifications/notifications_screen.dart';
-import '../views/screens/associate/associate_screen.dart'; // NUEVA PANTALLA
-import '../views/screens/privacy/privacy_screen.dart'; // NUEVA PANTALLA
-import '../views/screens/club/club_screen.dart'; // NUEVA PANTALLA
+import 'package:mi_app_velneo/views/screens/splash/splash_screen.dart';
+import 'package:mi_app_velneo/views/screens/home/home_screen.dart';
+import 'package:mi_app_velneo/views/screens/auth/login_screen.dart';
+import 'package:mi_app_velneo/views/screens/auth/register_screen.dart';
+import 'package:mi_app_velneo/views/screens/merchants/merchants_screen.dart';
+import 'package:mi_app_velneo/views/screens/profile/profile_screen.dart';
+import 'package:mi_app_velneo/views/screens/points/points_screen.dart';
+import 'package:mi_app_velneo/views/screens/notifications/notifications_screen.dart';
+import 'package:mi_app_velneo/views/screens/associate/associate_screen.dart';
+import 'package:mi_app_velneo/views/screens/privacy/privacy_screen.dart';
+import 'package:mi_app_velneo/views/screens/club/club_screen.dart';
 
 class AppRoutes {
   // Nombres de las rutas
@@ -22,8 +22,8 @@ class AppRoutes {
   static const String points = '/points';
   static const String notifications = '/notifications';
   static const String associate = '/associate'; // NUEVA RUTA
-   static const String privacy = '/privacy'; // NUEVA RUTA
-   static const String club = '/club'; // NUEVA RUTA
+  static const String privacy = '/privacy'; // NUEVA RUTA
+  static const String club = '/club'; // NUEVA RUTA
 
   // Mapa de rutas
   static Map<String, WidgetBuilder> getRoutes() {
@@ -36,9 +36,9 @@ class AppRoutes {
       profile: (context) => const ProfileScreen(),
       points: (context) => const PointsScreen(),
       notifications: (context) => const NotificationsScreen(),
-      associate: (context) => const AssociateScreen(), // NUEVA RUTA
-       privacy: (context) => const PrivacyScreen(), // NUEVA RUTA
-       club: (context) => const ClubScreen(), // NUEVA RUTA
+      associate: (context) => AssociateScreen(), // NUEVA RUTA
+      privacy: (context) => const PrivacyScreen(), // NUEVA RUTA
+      club: (context) => const ClubScreen(), // NUEVA RUTA
     };
   }
 

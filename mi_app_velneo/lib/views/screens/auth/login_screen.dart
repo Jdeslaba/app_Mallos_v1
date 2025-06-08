@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../config/theme.dart';
-import '../../../config/routes.dart';
-import '../../../utils/responsive_helper.dart';
-import '../../../utils/validators.dart';
+import 'package:mi_app_velneo/config/theme.dart';
+import 'package:mi_app_velneo/config/routes.dart';
+import 'package:mi_app_velneo/utils/responsive_helper.dart';
+import 'package:mi_app_velneo/utils/validators.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -52,7 +52,8 @@ class _LoginScreenState extends State<LoginScreen> {
     final Uri emailUri = Uri(
       scheme: 'mailto',
       path: 'distritomallos@gmail.com',
-      query: 'subject=Consulta desde la App&body=Hola,%0A%0AMe gustaría hacer una consulta.%0A%0AGracias.',
+      query:
+          'subject=Consulta desde la App&body=Hola,%0A%0AMe gustaría hacer una consulta.%0A%0AGracias.',
     );
 
     if (await canLaunchUrl(emailUri)) {
@@ -79,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 60),
-                
+
                 // Logo eu mallos
                 Container(
                   height: 120,
@@ -117,9 +118,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-                
+
                 const SizedBox(height: 60),
-                
+
                 // Campo Email
                 TextFormField(
                   controller: _emailController,
@@ -132,9 +133,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                
+
                 const SizedBox(height: 20),
-                
+
                 // Campo Contraseña
                 TextFormField(
                   controller: _passwordController,
@@ -159,9 +160,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     border: const OutlineInputBorder(),
                   ),
                 ),
-                
+
                 const SizedBox(height: 40),
-                
+
                 // Botón INICIAR
                 SizedBox(
                   width: double.infinity,
@@ -186,9 +187,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 20),
-                
+
                 // Botón CANCELAR
                 SizedBox(
                   width: double.infinity,
@@ -213,9 +214,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 60),
-                
+
                 // Enlaces del footer
                 Column(
                   children: [
@@ -244,7 +245,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                
+
                 const SizedBox(height: 40),
               ],
             ),

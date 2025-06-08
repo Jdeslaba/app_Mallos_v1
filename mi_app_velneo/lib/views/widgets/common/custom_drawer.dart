@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../config/theme.dart';
-import '../../../config/routes.dart';
+import 'package:mi_app_velneo/config/theme.dart';
+import 'package:mi_app_velneo/config/routes.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -71,9 +71,9 @@ class CustomDrawer extends StatelessWidget {
               ],
             ),
           ),
-          
+
           const SizedBox(height: 20),
-          
+
           // Asóciate
           ListTile(
             leading: Container(
@@ -95,12 +95,15 @@ class CustomDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, AppRoutes.associate); // NAVEGAR A ASOCIATE
+              Navigator.pushNamed(
+                context,
+                AppRoutes.associate,
+              ); // NAVEGAR A ASOCIATE
             },
           ),
-          
+
           const SizedBox(height: 10),
-          
+
           // Login Asociados
           ListTile(
             leading: Container(
@@ -125,9 +128,9 @@ class CustomDrawer extends StatelessWidget {
               Navigator.pushNamed(context, AppRoutes.login);
             },
           ),
-          
+
           const SizedBox(height: 10),
-          
+
           // Ajustes
           ListTile(
             leading: Container(

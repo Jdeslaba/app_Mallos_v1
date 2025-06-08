@@ -37,4 +37,4 @@ flutter:
   # Assets
   assets:
     - assets/images/
-    - assets/icons/
+    # - assets/icons/

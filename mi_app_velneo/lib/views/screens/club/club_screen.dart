@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../config/theme.dart';
-import '../../../utils/responsive_helper.dart';
-import '../../../utils/validators.dart';
+import 'package:mi_app_velneo/config/theme.dart';
+import 'package:mi_app_velneo/utils/responsive_helper.dart';
+import 'package:mi_app_velneo/utils/validators.dart';
 
 class ClubScreen extends StatefulWidget {
   const ClubScreen({super.key});
@@ -41,7 +41,9 @@ class _ClubScreenState extends State<ClubScreen> {
       // Mostrar mensaje de éxito
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('¡Tarjeta virtual solicitada con éxito! Recibirás confirmación por email.'),
+          content: Text(
+            '¡Tarjeta virtual solicitada con éxito! Recibirás confirmación por email.',
+          ),
           backgroundColor: Colors.green,
           duration: Duration(seconds: 4),
         ),
@@ -81,7 +83,7 @@ class _ClubScreenState extends State<ClubScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 20),
-            
+
             // Imagen de la tarjeta real - SIN FONDO GRIS
             Container(
               width: double.infinity,
@@ -101,19 +103,16 @@ class _ClubScreenState extends State<ClubScreen> {
                       child: Text(
                         'Tarjeta EU MALLOS\n(Imagen no encontrada)',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                        ),
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
                       ),
                     ),
                   );
                 },
               ),
             ),
-            
+
             const SizedBox(height: 30),
-            
+
             // Texto de bienvenida
             RichText(
               textAlign: TextAlign.center,
@@ -124,9 +123,7 @@ class _ClubScreenState extends State<ClubScreen> {
                   height: 1.5,
                 ),
                 children: const [
-                  TextSpan(
-                    text: 'Ola, benvido/a ao ',
-                  ),
+                  TextSpan(text: 'Ola, benvido/a ao '),
                   TextSpan(
                     text: 'Club EU MALLOS',
                     style: TextStyle(
@@ -135,7 +132,8 @@ class _ClubScreenState extends State<ClubScreen> {
                     ),
                   ),
                   TextSpan(
-                    text: ', queres\ndisfrutar de promocións no teu comercio de\nbarrio e outras sorpresas e vantaxes do ',
+                    text:
+                        ', queres\ndisfrutar de promocións no teu comercio de\nbarrio e outras sorpresas e vantaxes do ',
                   ),
                   TextSpan(
                     text: 'CCA\nDISTRITO MALLOS',
@@ -148,9 +146,9 @@ class _ClubScreenState extends State<ClubScreen> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 30),
-            
+
             // Texto del formulario
             Text(
               'Rexístrate neste formulario para obter a túa tarxeta virtual EU MALLOS nos estabelecementos asociados para conseguilas. Ademáis podes estar ao día das NOVAS PROMOS no apartado de "Promocións".',
@@ -161,9 +159,9 @@ class _ClubScreenState extends State<ClubScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            
+
             const SizedBox(height: 30),
-            
+
             // Formulario directamente visible
             Container(
               width: double.infinity,
@@ -207,9 +205,9 @@ class _ClubScreenState extends State<ClubScreen> {
                         ),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 20),
-                    
+
                     // Ilustración de personas
                     Container(
                       height: 120,
@@ -236,22 +234,23 @@ class _ClubScreenState extends State<ClubScreen> {
                         ),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 30),
-                    
+
                     // Campo Nome
                     TextFormField(
                       controller: _nameController,
-                      validator: (value) => Validators.validateRequired(value, 'Nome'),
+                      validator: (value) =>
+                          Validators.validateRequired(value, 'Nome'),
                       decoration: const InputDecoration(
                         labelText: 'Nome',
                         hintText: 'obligatorio',
                         border: UnderlineInputBorder(),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 20),
-                    
+
                     // Campo Email
                     TextFormField(
                       controller: _emailController,
@@ -263,9 +262,9 @@ class _ClubScreenState extends State<ClubScreen> {
                         border: UnderlineInputBorder(),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 20),
-                    
+
                     // Campo Móbil
                     TextFormField(
                       controller: _phoneController,
@@ -276,9 +275,9 @@ class _ClubScreenState extends State<ClubScreen> {
                         border: UnderlineInputBorder(),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 30),
-                    
+
                     // Botón ENVIAR
                     SizedBox(
                       width: 200,
@@ -292,7 +291,9 @@ class _ClubScreenState extends State<ClubScreen> {
                           ),
                         ),
                         child: _isLoading
-                            ? const CircularProgressIndicator(color: Colors.white)
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
                             : const Text(
                                 'ENVIAR',
                                 style: TextStyle(
@@ -307,9 +308,9 @@ class _ClubScreenState extends State<ClubScreen> {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 30),
-            
+
             // Información de beneficios
             Container(
               width: double.infinity,
@@ -330,7 +331,7 @@ class _ClubScreenState extends State<ClubScreen> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  
+
                   const Text(
                     '• Pode acumular puntos nas súas compras nos/nos estabelecementos asociados que logo poderá cambiar polas gratificacións que cada estabelecemento ofreza non seu apartado tarxeta EU MALLOS.',
                     style: TextStyle(
@@ -340,7 +341,7 @@ class _ClubScreenState extends State<ClubScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  
+
                   const Text(
                     '• Chegarán ao seu móbil as mensaxes coas campañas que se están a realizar na asociación DISTRITO MALLOS.',
                     style: TextStyle(
@@ -350,7 +351,7 @@ class _ClubScreenState extends State<ClubScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  
+
                   const Text(
                     '• Recibirá unha mensaxe de que hai novas promocións para consultar na APP (sección \'Promocións\').',
                     style: TextStyle(
@@ -362,7 +363,7 @@ class _ClubScreenState extends State<ClubScreen> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 40),
           ],
         ),

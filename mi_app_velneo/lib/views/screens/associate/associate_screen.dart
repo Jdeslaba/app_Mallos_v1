@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../config/theme.dart';
-import '../../../utils/responsive_helper.dart';
+import 'package:mi_app_velneo/config/theme.dart';
+import 'package:mi_app_velneo/utils/responsive_helper.dart';
+import 'package:mi_app_velneo/views/widgets/common/custom_app_bar.dart'; // ✅ IMPORTAR EL CUSTOM APP BAR
 
 class AssociateScreen extends StatelessWidget {
   const AssociateScreen({super.key});
@@ -11,23 +12,20 @@ class AssociateScreen extends StatelessWidget {
     final Uri emailUri = Uri(
       scheme: 'mailto',
       path: 'distritomallos@gmail.com',
-      query: 'subject=Solicitud de Asociación - Distrito Mallos&body=Hola,%0A%0AMe gustaría obtener más información sobre cómo asociarme a Distrito Mallos.%0A%0AGracias.',
+      query:
+          'subject=Solicitud de Asociación - Distrito Mallos&body=Hola,%0A%0AMe gustaría obtener más información sobre cómo asociarme a Distrito Mallos.%0A%0AGracias.',
     );
 
     if (await canLaunchUrl(emailUri)) {
       await launchUrl(emailUri);
     } else {
-      // Si no puede abrir el cliente de correo, mostrar mensaje
       throw 'No se pudo abrir el cliente de correo';
     }
   }
 
   // Función para hacer llamada telefónica
   Future<void> _makePhoneCall() async {
-    final Uri phoneUri = Uri(
-      scheme: 'tel',
-      path: '623744226',
-    );
+    final Uri phoneUri = Uri(scheme: 'tel', path: '623744226');
 
     if (await canLaunchUrl(phoneUri)) {
       await launchUrl(phoneUri);
@@ -40,34 +38,17 @@ class AssociateScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          'Asóciate',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        centerTitle: true,
-        // Logo de Distrito Mallos en la esquina derecha
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Image.asset(
-              'assets/images/distrito_mallos_logo.png',
-              height: ResponsiveHelper.getAppBarLogoHeight(context) * 0.8,
-              fit: BoxFit.contain,
-            ),
-          ),
-        ],
+
+      // ✅ REEMPLAZAR TODO EL AppBar por CustomAppBar
+      appBar: const CustomAppBar(
+        title: 'Asóciate',
+        showBackButton: true,
+        showMenuButton: false,
+        showFavoriteButton: false,
+        showLogo: true,
       ),
+
+      // ✅ EL RESTO DEL CÓDIGO SIN CAMBIOS
       body: SingleChildScrollView(
         child: Padding(
           padding: ResponsiveHelper.getHorizontalPadding(context),
@@ -75,7 +56,7 @@ class AssociateScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 40),
-              
+
               // Ilustración de profesionales
               Container(
                 width: double.infinity,
@@ -95,21 +76,22 @@ class AssociateScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 40),
-              
-              // Texto principal
+
+              // Texto principal - MEJORADO
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
                   style: TextStyle(
                     fontSize: ResponsiveHelper.isDesktop(context) ? 18 : 16,
                     color: Colors.grey.shade700,
-                    height: 1.5,
+                    height: 1.6, // ✅ Aumentar espaciado entre líneas
                   ),
                   children: const [
                     TextSpan(
-                      text: 'Todos os profesionais temos cabida na\nAsociación ',
+                      text:
+                          'Todos os profesionais temos cabida na\nAsociación ',
                     ),
                     TextSpan(
                       text: 'DISTRITO MALLOS',
@@ -119,10 +101,11 @@ class AssociateScreen extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: '. Se\ndesenvolves a túa actividade profesional ou\ntes a túa dirección fiscal no noso barrio,\npodes unirte e beneficiarte das vantaxes de\nser asociado e de pertencer o ',
+                      text:
+                          '.\n\nSe desenvolves a túa actividade profesional ou tes a túa dirección fiscal no noso barrio, podes unirte e beneficiarte das vantaxes de ser asociado e de pertencer o ', // ✅ Agregar \n\n para mejor separación
                     ),
                     TextSpan(
-                      text: 'CCA DISTRITO\nMALLOS',
+                      text: 'CCA DISTRITO MALLOS',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: AppTheme.primaryColor,
@@ -132,9 +115,9 @@ class AssociateScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              
+
               const SizedBox(height: 60),
-              
+
               // Botón ÚNETE - FUNCIONAL
               Container(
                 width: double.infinity,
@@ -164,7 +147,9 @@ class AssociateScreen extends StatelessWidget {
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Error al abrir el correo. Inténtalo más tarde.'),
+                            content: Text(
+                              'Error al abrir el correo. Inténtalo más tarde.',
+                            ),
                             backgroundColor: Colors.red,
                           ),
                         );
@@ -184,103 +169,137 @@ class AssociateScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 40),
-              
-              // Información de contacto - FUNCIONAL
-              Column(
-                children: [
-                  // Email clickeable
-                  GestureDetector(
-                    onTap: () async {
-                      try {
-                        await _sendEmail();
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Error al abrir el correo'),
-                            backgroundColor: Colors.red,
-                          ),
-                        );
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                      decoration: BoxDecoration(
-                        color: Colors.blue.shade50,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.blue.shade200),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.email_outlined,
-                            color: Colors.blue.shade700,
-                            size: 20,
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            'distritomallos@gmail.com',
-                            style: TextStyle(
-                              fontSize: ResponsiveHelper.isDesktop(context) ? 18 : 16,
-                              color: Colors.blue.shade700,
-                              fontWeight: FontWeight.w500,
-                              decoration: TextDecoration.underline,
+
+              // Información de contacto - CORREGIR OVERFLOW
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  children: [
+                    // Email clickeable - LIMITAR ANCHO
+                    Center(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width - 60,
+                        ),
+                        child: GestureDetector(
+                          onTap: () async {
+                            try {
+                              await _sendEmail();
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Error al abrir el correo'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 15,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.blue.shade50,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.blue.shade200),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.email_outlined,
+                                  color: Colors.blue.shade700,
+                                  size: 20,
+                                ),
+                                const SizedBox(width: 8),
+                                Flexible(
+                                  child: Text(
+                                    'distritomallos@gmail.com',
+                                    style: TextStyle(
+                                      fontSize:
+                                          ResponsiveHelper.isDesktop(context)
+                                          ? 16
+                                          : 14,
+                                      color: Colors.blue.shade700,
+                                      fontWeight: FontWeight.w500,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                  
-                  const SizedBox(height: 20),
-                  
-                  // Teléfono clickeable
-                  GestureDetector(
-                    onTap: () async {
-                      try {
-                        await _makePhoneCall();
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Error al abrir la aplicación de teléfono'),
-                            backgroundColor: Colors.red,
-                          ),
-                        );
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-                      decoration: BoxDecoration(
-                        color: Colors.green.shade50,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.green.shade200),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.phone_outlined,
-                            color: Colors.green.shade700,
-                            size: 24,
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            '623 74 42 26',
-                            style: TextStyle(
-                              fontSize: ResponsiveHelper.isDesktop(context) ? 24 : 20,
-                              color: Colors.green.shade700,
-                              fontWeight: FontWeight.w600,
+
+                    const SizedBox(height: 20),
+
+                    // Teléfono clickeable - LIMITAR ANCHO
+                    Center(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width - 60,
+                        ),
+                        child: GestureDetector(
+                          onTap: () async {
+                            try {
+                              await _makePhoneCall();
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Error al abrir la aplicación de teléfono',
+                                  ),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 12,
+                              horizontal: 15,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.green.shade50,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.green.shade200),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.phone_outlined,
+                                  color: Colors.green.shade700,
+                                  size: 24,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  '623 74 42 26',
+                                  style: TextStyle(
+                                    fontSize:
+                                        ResponsiveHelper.isDesktop(context)
+                                        ? 20
+                                        : 18,
+                                    color: Colors.green.shade700,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              
+
               const SizedBox(height: 40),
             ],
           ),

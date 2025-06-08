@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../config/routes.dart';
-import '../../../utils/responsive_helper.dart'; // Importar helper responsivo
+import 'package:mi_app_velneo/config/routes.dart';
+import 'package:mi_app_velneo/utils/responsive_helper.dart'; // Importar helper responsivo
 
 class MenuButtonsSection extends StatelessWidget {
   const MenuButtonsSection({super.key});
@@ -8,11 +8,15 @@ class MenuButtonsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: ResponsiveHelper.getHorizontalPadding(context), // Padding responsivo
+      padding: ResponsiveHelper.getHorizontalPadding(
+        context,
+      ), // Padding responsivo
       child: GridView.count(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        crossAxisCount: ResponsiveHelper.getGridColumns(context), // Columnas responsivas
+        crossAxisCount: ResponsiveHelper.getGridColumns(
+          context,
+        ), // Columnas responsivas
         mainAxisSpacing: 15,
         crossAxisSpacing: 15,
         children: [
@@ -29,7 +33,7 @@ class MenuButtonsSection extends StatelessWidget {
               );
             },
           ),
-          
+
           // XANTAMOS?
           _buildMenuButton(
             context,
@@ -43,7 +47,7 @@ class MenuButtonsSection extends StatelessWidget {
               );
             },
           ),
-          
+
           // MERCAMOS?
           _buildMenuButton(
             context,
@@ -55,7 +59,7 @@ class MenuButtonsSection extends StatelessWidget {
               Navigator.pushNamed(context, AppRoutes.merchants);
             },
           ),
-          
+
           // NOVAS
           _buildMenuButton(
             context,
@@ -67,7 +71,7 @@ class MenuButtonsSection extends StatelessWidget {
               Navigator.pushNamed(context, AppRoutes.notifications);
             },
           ),
-          
+
           // TARXETA
           _buildMenuButton(
             context,
@@ -80,7 +84,7 @@ class MenuButtonsSection extends StatelessWidget {
               Navigator.pushNamed(context, AppRoutes.club); // NAVEGAR AL CLUB
             },
           ),
-          
+
           // PROMOS
           _buildMenuButton(
             context,
@@ -127,14 +131,18 @@ class MenuButtonsSection extends StatelessWidget {
           children: [
             Icon(
               icon,
-              size: ResponsiveHelper.getMenuButtonIconSize(context), // Icono responsivo
+              size: ResponsiveHelper.getMenuButtonIconSize(
+                context,
+              ), // Icono responsivo
               color: textColor,
             ),
             const SizedBox(height: 8),
             Text(
               title,
               style: TextStyle(
-                fontSize: ResponsiveHelper.getMenuButtonTitleSize(context), // Texto responsivo
+                fontSize: ResponsiveHelper.getMenuButtonTitleSize(
+                  context,
+                ), // Texto responsivo
                 fontWeight: FontWeight.bold,
                 color: textColor,
               ),
@@ -144,7 +152,9 @@ class MenuButtonsSection extends StatelessWidget {
               Text(
                 subtitle,
                 style: TextStyle(
-                  fontSize: ResponsiveHelper.getMenuButtonSubtitleSize(context), // Subtítulo responsivo
+                  fontSize: ResponsiveHelper.getMenuButtonSubtitleSize(
+                    context,
+                  ), // Subtítulo responsivo
                   color: textColor.withOpacity(0.8),
                 ),
               ),
