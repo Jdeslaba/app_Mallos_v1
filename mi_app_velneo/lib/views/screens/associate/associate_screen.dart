@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:mi_app_velneo/config/theme.dart';
 import 'package:mi_app_velneo/utils/responsive_helper.dart';
-import 'package:mi_app_velneo/views/widgets/common/custom_app_bar.dart'; // ✅ IMPORTAR EL CUSTOM APP BAR
+import 'package:mi_app_velneo/views/widgets/common/custom_app_bar.dart';
 
 class AssociateScreen extends StatelessWidget {
   const AssociateScreen({super.key});
 
   // Función para enviar correo
-  Future<void> _sendEmail() async {
+  Future<void> _sendEmail(BuildContext context) async {
+    // ✅ Recibir context como parámetro
     final Uri emailUri = Uri(
       scheme: 'mailto',
       path: 'distritomallos@gmail.com',
@@ -16,21 +17,48 @@ class AssociateScreen extends StatelessWidget {
           'subject=Solicitud de Asociación - Distrito Mallos&body=Hola,%0A%0AMe gustaría obtener más información sobre cómo asociarme a Distrito Mallos.%0A%0AGracias.',
     );
 
-    if (await canLaunchUrl(emailUri)) {
-      await launchUrl(emailUri);
-    } else {
-      throw 'No se pudo abrir el cliente de correo';
+    try {
+      if (await canLaunchUrl(emailUri)) {
+        await launchUrl(emailUri);
+      } else {
+        throw 'No se pudo abrir el cliente de correo';
+      }
+    } catch (e) {
+      // ✅ Context ya disponible como parámetro
+      if (context.mounted) {
+        // ✅ Verificar que el widget sigue montado
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error al abrir el correo. Inténtalo más tarde.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
   // Función para hacer llamada telefónica
-  Future<void> _makePhoneCall() async {
+  Future<void> _makePhoneCall(BuildContext context) async {
+    // ✅ Recibir context como parámetro
     final Uri phoneUri = Uri(scheme: 'tel', path: '623744226');
 
-    if (await canLaunchUrl(phoneUri)) {
-      await launchUrl(phoneUri);
-    } else {
-      throw 'No se pudo abrir la aplicación de teléfono';
+    try {
+      if (await canLaunchUrl(phoneUri)) {
+        await launchUrl(phoneUri);
+      } else {
+        throw 'No se pudo abrir la aplicación de teléfono';
+      }
+    } catch (e) {
+      // ✅ Context ya disponible como parámetro
+      if (context.mounted) {
+        // ✅ Verificar que el widget sigue montado
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error al abrir la aplicación de teléfono'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -39,7 +67,6 @@ class AssociateScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
 
-      // ✅ REEMPLAZAR TODO EL AppBar por CustomAppBar
       appBar: const CustomAppBar(
         title: 'Asóciate',
         showBackButton: true,
@@ -48,7 +75,6 @@ class AssociateScreen extends StatelessWidget {
         showLogo: true,
       ),
 
-      // ✅ EL RESTO DEL CÓDIGO SIN CAMBIOS
       body: SingleChildScrollView(
         child: Padding(
           padding: ResponsiveHelper.getHorizontalPadding(context),
@@ -79,14 +105,14 @@ class AssociateScreen extends StatelessWidget {
 
               const SizedBox(height: 40),
 
-              // Texto principal - MEJORADO
+              // Texto principal
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
                   style: TextStyle(
                     fontSize: ResponsiveHelper.isDesktop(context) ? 18 : 16,
                     color: Colors.grey.shade700,
-                    height: 1.6, // ✅ Aumentar espaciado entre líneas
+                    height: 1.6,
                   ),
                   children: const [
                     TextSpan(
@@ -102,7 +128,7 @@ class AssociateScreen extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                          '.\n\nSe desenvolves a túa actividade profesional ou tes a túa dirección fiscal no noso barrio, podes unirte e beneficiarte das vantaxes de ser asociado e de pertencer o ', // ✅ Agregar \n\n para mejor separación
+                          '.\n\nSe desenvolves a túa actividade profesional ou tes a túa dirección fiscal no noso barrio, podes unirte e beneficiarte das vantaxes de ser asociado e de pertencer o ',
                     ),
                     TextSpan(
                       text: 'CCA DISTRITO MALLOS',
@@ -131,7 +157,9 @@ class AssociateScreen extends StatelessWidget {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.red.withOpacity(0.3),
+                      color: Colors.red.withValues(
+                        alpha: 0.3,
+                      ), // ✅ CORREGIDO: withValues en lugar de withOpacity
                       blurRadius: 10,
                       offset: const Offset(0, 5),
                     ),
@@ -141,20 +169,9 @@ class AssociateScreen extends StatelessWidget {
                   color: Colors.transparent,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(15),
-                    onTap: () async {
-                      try {
-                        await _sendEmail();
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Error al abrir el correo. Inténtalo más tarde.',
-                            ),
-                            backgroundColor: Colors.red,
-                          ),
-                        );
-                      }
-                    },
+                    onTap: () => _sendEmail(
+                      context,
+                    ), // ✅ CORREGIDO: Pasar context como parámetro
                     child: const Center(
                       child: Text(
                         'ÚNETE',
@@ -184,18 +201,9 @@ class AssociateScreen extends StatelessWidget {
                           maxWidth: MediaQuery.of(context).size.width - 60,
                         ),
                         child: GestureDetector(
-                          onTap: () async {
-                            try {
-                              await _sendEmail();
-                            } catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Error al abrir el correo'),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                            }
-                          },
+                          onTap: () => _sendEmail(
+                            context,
+                          ), // ✅ CORREGIDO: Pasar context como parámetro
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                               vertical: 10,
@@ -246,20 +254,9 @@ class AssociateScreen extends StatelessWidget {
                           maxWidth: MediaQuery.of(context).size.width - 60,
                         ),
                         child: GestureDetector(
-                          onTap: () async {
-                            try {
-                              await _makePhoneCall();
-                            } catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Error al abrir la aplicación de teléfono',
-                                  ),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                            }
-                          },
+                          onTap: () => _makePhoneCall(
+                            context,
+                          ), // ✅ CORREGIDO: Pasar context como parámetro
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                               vertical: 12,
