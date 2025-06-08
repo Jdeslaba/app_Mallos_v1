@@ -2,30 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:mi_app_velneo/config/theme.dart';
 import 'package:mi_app_velneo/views/widgets/common/custom_app_bar.dart';
 import 'package:mi_app_velneo/views/widgets/common/custom_drawer.dart';
-import 'news_section.dart';
-import 'menu_buttons_section.dart';
-import 'footer_section.dart';
+import 'package:mi_app_velneo/views/screens/home/news_section.dart';
+import 'package:mi_app_velneo/views/screens/home/menu_buttons_section.dart';
+import 'package:mi_app_velneo/views/screens/home/footer_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: AppTheme.backgroundColor,
 
       // AppBar personalizado
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(),
 
       // Menú lateral personalizado
-      drawer: const CustomDrawer(),
+      drawer: CustomDrawer(),
 
       // Body con todas las secciones
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(height: 20), // Espacio superior
-            // Sección de noticias (donde estaba "Feliz Nai")
+            // Sección de noticias
             NewsSection(),
 
             SizedBox(height: 30),

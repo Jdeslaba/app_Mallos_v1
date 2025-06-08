@@ -6,8 +6,7 @@ class SafeContainer extends StatelessWidget {
   final Widget child;
   final EdgeInsets? padding;
   final BoxDecoration? decoration;
-  final double? maxWidthPercentage;
-  final double? maxHeightPercentage;
+  final double maxWidthPercentage;
 
   const SafeContainer({
     super.key,
@@ -15,19 +14,17 @@ class SafeContainer extends StatelessWidget {
     this.padding,
     this.decoration,
     this.maxWidthPercentage = 0.95,
-    this.maxHeightPercentage,
   });
 
   @override
   Widget build(BuildContext context) {
+    double maxWidth =
+        ResponsiveHelper.getScreenWidth(context) * maxWidthPercentage;
+
     return ConstrainedBox(
-      constraints: ResponsiveHelper.getSafeConstraints(
-        context,
-        maxWidthPercentage: maxWidthPercentage,
-        maxHeightPercentage: maxHeightPercentage,
-      ),
+      constraints: BoxConstraints(maxWidth: maxWidth),
       child: Container(
-        padding: padding ?? ResponsiveHelper.getSafeHorizontalPadding(context),
+        padding: padding ?? ResponsiveHelper.getHorizontalPadding(context),
         decoration: decoration,
         child: child,
       ),
@@ -83,7 +80,6 @@ class SafeRow extends StatelessWidget {
       mainAxisAlignment: mainAxisAlignment,
       crossAxisAlignment: crossAxisAlignment,
       children: children.map((child) {
-        // Si es un texto o contenido flexible, envolverlo en Flexible
         if (child is Text || child is RichText || child is SafeText) {
           return Flexible(child: child);
         }
@@ -98,20 +94,23 @@ class SafeColumn extends StatelessWidget {
   final List<Widget> children;
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
-  final double? spacing;
+  final double spacing;
 
   const SafeColumn({
     super.key,
     required this.children,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.center,
-    this.spacing,
+    this.spacing = 20,
   });
 
   @override
   Widget build(BuildContext context) {
-    double adaptiveSpacing =
-        spacing ?? ResponsiveHelper.getSafeVerticalSpacing(context);
+    double adaptiveSpacing = ResponsiveHelper.isDesktop(context)
+        ? spacing
+        : ResponsiveHelper.isTablet(context)
+        ? spacing * 0.8
+        : spacing * 0.7;
 
     List<Widget> spacedChildren = [];
     for (int i = 0; i < children.length; i++) {
@@ -135,8 +134,7 @@ class SafeButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color? backgroundColor;
   final Color? textColor;
-  final double? maxWidthPercentage;
-  final EdgeInsets? padding;
+  final double maxWidthPercentage;
 
   const SafeButton({
     super.key,
@@ -145,26 +143,22 @@ class SafeButton extends StatelessWidget {
     this.backgroundColor,
     this.textColor,
     this.maxWidthPercentage = 0.9,
-    this.padding,
   });
 
   @override
   Widget build(BuildContext context) {
+    double maxWidth =
+        ResponsiveHelper.getScreenWidth(context) * maxWidthPercentage;
+
     return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxWidth: ResponsiveHelper.getSafeMaxWidth(
-          context,
-          percentage: maxWidthPercentage!,
-        ),
-      ),
+      constraints: BoxConstraints(maxWidth: maxWidth),
       child: SizedBox(
         width: double.infinity,
-        height: ResponsiveHelper.isVerySmallScreen(context) ? 48 : 56,
+        height: ResponsiveHelper.isDesktop(context) ? 56 : 48,
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: backgroundColor,
-            padding: padding ?? ResponsiveHelper.getAdaptivePadding(context),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -174,12 +168,7 @@ class SafeButton extends StatelessWidget {
               text,
               style: TextStyle(
                 color: textColor ?? Colors.white,
-                fontSize: ResponsiveHelper.getSafeFontSize(
-                  context,
-                  desktopSize: 18,
-                  tabletSize: 16,
-                  mobileSize: 14,
-                ),
+                fontSize: ResponsiveHelper.getMenuButtonTitleSize(context) + 2,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -217,21 +206,23 @@ class SafeTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: ResponsiveHelper.getSafeMaxWidth(context),
+        maxWidth: ResponsiveHelper.getScreenWidth(context) * 0.95,
       ),
       child: TextFormField(
         controller: controller,
         keyboardType: keyboardType,
         validator: validator,
         obscureText: obscureText,
-        style: TextStyle(fontSize: ResponsiveHelper.getSafeFontSize(context)),
+        style: TextStyle(
+          fontSize: ResponsiveHelper.getMenuButtonTitleSize(context),
+        ),
         decoration: InputDecoration(
           labelText: labelText,
           hintText: hintText,
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           border: const OutlineInputBorder(),
-          contentPadding: ResponsiveHelper.getAdaptivePadding(context),
+          contentPadding: ResponsiveHelper.getHorizontalPadding(context),
         ),
       ),
     );

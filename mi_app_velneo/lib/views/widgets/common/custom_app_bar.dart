@@ -23,23 +23,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
-      elevation: 0, // Sin elevación por defecto
+      elevation: 4.0,
+
+      shadowColor: Colors.black.withValues(alpha: 0.25),
+
       bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(4.0),
-        child: Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-        ),
+        preferredSize: const Size.fromHeight(1.0),
+        child: Container(color: Colors.grey.shade200, height: 1.0),
       ),
 
-      // LEADING: Menú hamburguesa O botón back
       leading: showBackButton
           ? IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.black),
@@ -54,7 +46,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             )
           : null,
 
-      // TITLE: Logo centrado O título personalizado
       title: title != null
           ? Text(
               title!,
@@ -74,7 +65,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
       centerTitle: true,
 
-      // ACTIONS: Favoritos + Logo pequeño (si hay título)
       actions: _buildActions(context),
     );
   }
@@ -82,7 +72,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   List<Widget> _buildActions(BuildContext context) {
     List<Widget> actions = [];
 
-    // Si hay título personalizado, mostrar logo pequeño a la derecha
     if (title != null && showLogo) {
       actions.add(
         Padding(
@@ -96,7 +85,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       );
     }
 
-    // Botón de favoritos (solo en home normalmente)
     if (showFavoriteButton && title == null) {
       actions.add(
         IconButton(
@@ -114,5 +102,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 1.0); // +1 para el borde
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 1.0);
 }

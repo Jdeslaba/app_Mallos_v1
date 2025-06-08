@@ -35,17 +35,23 @@ class _LoginScreenState extends State<LoginScreen> {
       // Simular llamada a API (reemplazar con llamada real)
       await Future.delayed(const Duration(seconds: 2));
 
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        // ✅ CORREGIDO: Verificar que el widget sigue montado
+        setState(() {
+          _isLoading = false;
+        });
 
-      // Navegar al home después del login exitoso
-      Navigator.pushReplacementNamed(context, AppRoutes.home);
+        // Navegar al home después del login exitoso
+        Navigator.pushReplacementNamed(context, AppRoutes.home);
+      }
     }
   }
 
   Future<void> _openPrivacyPolicy() async {
-    Navigator.pushNamed(context, AppRoutes.privacy);
+    if (mounted) {
+      // ✅ CORREGIDO: Verificar que el widget sigue montado
+      Navigator.pushNamed(context, AppRoutes.privacy);
+    }
   }
 
   Future<void> _openContactForm() async {
@@ -56,15 +62,22 @@ class _LoginScreenState extends State<LoginScreen> {
           'subject=Consulta desde la App&body=Hola,%0A%0AMe gustaría hacer una consulta.%0A%0AGracias.',
     );
 
-    if (await canLaunchUrl(emailUri)) {
-      await launchUrl(emailUri);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('No se pudo abrir el cliente de correo'),
-          backgroundColor: Colors.red,
-        ),
-      );
+    try {
+      if (await canLaunchUrl(emailUri)) {
+        await launchUrl(emailUri);
+      } else {
+        throw 'No se pudo abrir el cliente de correo';
+      }
+    } catch (e) {
+      if (mounted) {
+        // ✅ CORREGIDO: Verificar que el widget sigue montado
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('No se pudo abrir el cliente de correo'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -81,8 +94,8 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 const SizedBox(height: 60),
 
-                // Logo eu mallos
-                Container(
+                // Logo eu mallos - ✅ CORREGIDO: Container → SizedBox + const
+                const SizedBox(
                   height: 120,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -91,12 +104,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Icon(
-                            Icons.favorite,
-                            color: Colors.red,
-                            size: 32,
-                          ),
-                          const Text(
+                          Icon(Icons.favorite, color: Colors.red, size: 32),
+                          Text(
                             'eu',
                             style: TextStyle(
                               fontSize: 28,
@@ -106,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ],
                       ),
-                      const Text(
+                      Text(
                         'mallos',
                         style: TextStyle(
                           fontSize: 48,

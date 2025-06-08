@@ -34,25 +34,28 @@ class _ClubScreenState extends State<ClubScreen> {
       // Simular llamada a API (reemplazar con llamada real)
       await Future.delayed(const Duration(seconds: 2));
 
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        // ✅ CORREGIDO: Verificar que el widget sigue montado
+        setState(() {
+          _isLoading = false;
+        });
 
-      // Mostrar mensaje de éxito
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            '¡Tarjeta virtual solicitada con éxito! Recibirás confirmación por email.',
+        // Mostrar mensaje de éxito
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              '¡Tarjeta virtual solicitada con éxito! Recibirás confirmación por email.',
+            ),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 4),
           ),
-          backgroundColor: Colors.green,
-          duration: Duration(seconds: 4),
-        ),
-      );
+        );
 
-      // Limpiar formulario
-      _nameController.clear();
-      _emailController.clear();
-      _phoneController.clear();
+        // Limpiar formulario
+        _nameController.clear();
+        _emailController.clear();
+        _phoneController.clear();
+      }
     }
   }
 
@@ -84,8 +87,8 @@ class _ClubScreenState extends State<ClubScreen> {
           children: [
             const SizedBox(height: 20),
 
-            // Imagen de la tarjeta real - SIN FONDO GRIS
-            Container(
+            // Imagen de la tarjeta real - SIN FONDO GRIS - ✅ CORREGIDO: Container → SizedBox
+            SizedBox(
               width: double.infinity,
               height: 200,
               child: Image.asset(
@@ -172,7 +175,9 @@ class _ClubScreenState extends State<ClubScreen> {
                 border: Border.all(color: Colors.grey.shade300),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(
+                      alpha: 0.05,
+                    ), // ✅ CORREGIDO: withValues en lugar de withOpacity
                     blurRadius: 10,
                     offset: const Offset(0, 5),
                   ),
@@ -212,9 +217,9 @@ class _ClubScreenState extends State<ClubScreen> {
                     Container(
                       height: 120,
                       width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: const LinearGradient(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        gradient: LinearGradient(
                           colors: [
                             Colors.yellow,
                             Colors.green,
@@ -311,7 +316,7 @@ class _ClubScreenState extends State<ClubScreen> {
 
             const SizedBox(height: 30),
 
-            // Información de beneficios
+            // Información de beneficios - ✅ CORREGIDO: const
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(20),
@@ -319,10 +324,10 @@ class _ClubScreenState extends State<ClubScreen> {
                 color: Colors.grey.shade50,
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Unha vez que descargou a súa tarxeta virtual, terá as siguintes vantaxes:',
                     style: TextStyle(
                       fontSize: 16,
@@ -330,9 +335,9 @@ class _ClubScreenState extends State<ClubScreen> {
                       color: AppTheme.textPrimary,
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  SizedBox(height: 15),
 
-                  const Text(
+                  Text(
                     '• Pode acumular puntos nas súas compras nos/nos estabelecementos asociados que logo poderá cambiar polas gratificacións que cada estabelecemento ofreza non seu apartado tarxeta EU MALLOS.',
                     style: TextStyle(
                       fontSize: 14,
@@ -340,9 +345,9 @@ class _ClubScreenState extends State<ClubScreen> {
                       height: 1.4,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
 
-                  const Text(
+                  Text(
                     '• Chegarán ao seu móbil as mensaxes coas campañas que se están a realizar na asociación DISTRITO MALLOS.',
                     style: TextStyle(
                       fontSize: 14,
@@ -350,9 +355,9 @@ class _ClubScreenState extends State<ClubScreen> {
                       height: 1.4,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
 
-                  const Text(
+                  Text(
                     '• Recibirá unha mensaxe de que hai novas promocións para consultar na APP (sección \'Promocións\').',
                     style: TextStyle(
                       fontSize: 14,

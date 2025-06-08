@@ -21,9 +21,9 @@ class AppRoutes {
   static const String profile = '/profile';
   static const String points = '/points';
   static const String notifications = '/notifications';
-  static const String associate = '/associate'; // NUEVA RUTA
-  static const String privacy = '/privacy'; // NUEVA RUTA
-  static const String club = '/club'; // NUEVA RUTA
+  static const String associate = '/associate';
+  static const String privacy = '/privacy';
+  static const String club = '/club';
 
   // Mapa de rutas
   static Map<String, WidgetBuilder> getRoutes() {
@@ -36,9 +36,9 @@ class AppRoutes {
       profile: (context) => const ProfileScreen(),
       points: (context) => const PointsScreen(),
       notifications: (context) => const NotificationsScreen(),
-      associate: (context) => AssociateScreen(), // NUEVA RUTA
-      privacy: (context) => const PrivacyScreen(), // NUEVA RUTA
-      club: (context) => const ClubScreen(), // NUEVA RUTA
+      associate: (context) => const AssociateScreen(),
+      privacy: (context) => const PrivacyScreen(),
+      club: (context) => const ClubScreen(),
     };
   }
 

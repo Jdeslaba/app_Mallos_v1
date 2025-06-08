@@ -16,7 +16,7 @@ class NewsSection extends StatelessWidget {
           border: Border.all(color: Colors.grey.shade300, width: 2),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -26,11 +26,7 @@ class NewsSection extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.newspaper,
-                size: 50,
-                color: Colors.grey,
-              ),
+              Icon(Icons.newspaper, size: 50, color: Colors.grey),
               SizedBox(height: 10),
               Text(
                 'Última Noticia',
@@ -43,10 +39,7 @@ class NewsSection extends StatelessWidget {
               SizedBox(height: 5),
               Text(
                 'Las noticias se cargarán desde la API',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
+                style: TextStyle(fontSize: 12, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
             ],

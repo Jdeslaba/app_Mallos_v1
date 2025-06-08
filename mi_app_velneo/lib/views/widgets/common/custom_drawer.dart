@@ -13,62 +13,60 @@ class CustomDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           // Header del drawer con logo eu mallos
-          Container(
+          SizedBox(
             height: 200,
-            color: Colors.white,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Menú',
-                  style: TextStyle(
-                    color: AppTheme.primaryColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
+            child: Container(
+              color: Colors.white,
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Menú',
+                    style: TextStyle(
+                      color: AppTheme.primaryColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                // Logo eu mallos
-                Container(
-                  width: 150,
-                  height: 80,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Corazón + eu
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.favorite,
-                            color: Colors.red,
-                            size: 24,
-                          ),
-                          const Text(
-                            'eu',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                  SizedBox(height: 20),
+                  // Logo eu mallos
+                  SizedBox(
+                    width: 150,
+                    height: 80,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Corazón + eu
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(Icons.favorite, color: Colors.red, size: 24),
+                            Text(
+                              'eu',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      // mallos
-                      const Text(
-                        'mallos',
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
-                          height: 0.8,
+                          ],
                         ),
-                      ),
-                    ],
+                        // mallos
+                        Text(
+                          'mallos',
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                            height: 0.8,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
 
@@ -76,14 +74,10 @@ class CustomDrawer extends StatelessWidget {
 
           // Asóciate
           ListTile(
-            leading: Container(
+            leading: const SizedBox(
               width: 24,
               height: 24,
-              child: const Icon(
-                Icons.store_outlined,
-                color: Colors.grey,
-                size: 20,
-              ),
+              child: Icon(Icons.store_outlined, color: Colors.grey, size: 20),
             ),
             title: const Text(
               'Asóciate',
@@ -95,10 +89,7 @@ class CustomDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(
-                context,
-                AppRoutes.associate,
-              ); // NAVEGAR A ASOCIATE
+              Navigator.pushNamed(context, AppRoutes.associate);
             },
           ),
 
@@ -106,14 +97,10 @@ class CustomDrawer extends StatelessWidget {
 
           // Login Asociados
           ListTile(
-            leading: Container(
+            leading: const SizedBox(
               width: 24,
               height: 24,
-              child: const Icon(
-                Icons.people_outline,
-                color: Colors.grey,
-                size: 20,
-              ),
+              child: Icon(Icons.people_outline, color: Colors.grey, size: 20),
             ),
             title: const Text(
               'Login Asociados',
@@ -133,10 +120,10 @@ class CustomDrawer extends StatelessWidget {
 
           // Ajustes
           ListTile(
-            leading: Container(
+            leading: const SizedBox(
               width: 24,
               height: 24,
-              child: const Icon(
+              child: Icon(
                 Icons.settings_outlined,
                 color: Colors.grey,
                 size: 20,
