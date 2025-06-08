@@ -13,7 +13,7 @@ class AssociateScreen extends StatelessWidget {
       scheme: 'mailto',
       path: 'distritomallos@gmail.com',
       query:
-          'subject=Solicitud de Asociación - Distrito Mallos&body=Hola,%0A%0AMe gustaría obtener más información sobre cómo asociarme a Distrito Mallos.%0A%0AGracias.',
+          'subject=Solicitud de Asociación - Distrito Mallos&body=Hola,%0A%0AMe gustaría obtener máss información sobre cómo asociarme a Distrito Mallos.%0A%0AGracias.',
     );
 
     if (await canLaunchUrl(emailUri)) {
